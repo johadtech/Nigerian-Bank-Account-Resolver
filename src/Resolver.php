@@ -1,89 +1,67 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NigerianBankResolver;
 
-/**
- * Class Resolver
- * 
- * Suggests potential matching banks for typed account numbers using NUBAN checksums
- * across all active Nigerian commercial banks, merchant banks, PSBs, and microfinance banks/fintechs.
- * 
- * Includes robust handling for fintech accounts that use mobile phone numbers.
- */
-class Resolver
+final class Resolver
 {
-    private BankRegistry $registry;
-
-    /**
-     * Resolver constructor.
-     *
-     * @param BankRegistry $registry
-     */
-    public function __construct(BankRegistry $registry)
+    public function __construct(private readonly BankRegistry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**
-     * Resolve matching banks for a given account number string.
-     * 
-     * Handles:
-     * - Standard 10-digit NUBANs.
-     * - 11-digit phone numbers (strips leading '0' to get 10-digit fintech identifier).
-     * - 10-digit phone numbers (already stripped).
-     *
-     * @param string $accountNumber
-     * @return Bank[]
+     * @return list<Bank>
      */
     public function resolve(string $accountNumber): array
     {
-        $sanitized = $this->sanitizeAccountNumber($accountNumber);
-
-        if (strlen($sanitized) < 10) {
+        $digits = $this->digitsOnly($accountNumber);
+        if ($digits === '') {
             return [];
         }
 
-        $matches = $this->matchByNuban($sanitized);
+        if ($this->isNationalPhoneNumber($digits)) {
+            // Reasoning: a clearly formatted Nigerian phone input must not be polluted by accidental NUBAN checksum matches.
+            return $this->matchPhoneAccounts();
+        }
 
-        // Apply fintech phone heuristic if applicable (wallets starting with 7, 8, 9)
-        if (preg_match('/^[789]\d{9}$/', $sanitized)) {
-            $matches = $this->applyFintechHeuristics($matches);
+        if (strlen($digits) !== 10) {
+            return [];
+        }
+
+        $matches = $this->matchByNuban($digits);
+        if ($this->isNormalizedPhoneNumber($digits)) {
+            // Reasoning: a 10-digit phone input is ambiguous with a NUBAN, so documented phone matches are added without discarding valid NUBAN matches.
+            $matches = $this->mergeUnique($matches, $this->matchPhoneAccounts());
         }
 
         return $matches;
     }
 
-    /**
-     * Sanitize input to ensure a 10-digit identifier.
-     * 
-     * If an 11-digit number starting with '0' is provided (Nigerian phone format),
-     * the leading '0' is stripped to align with fintech 10-digit account mappings.
-     *
-     * @param string $input
-     * @return string
-     */
-    private function sanitizeAccountNumber(string $input): string
+    private function digitsOnly(string $input): string
     {
-        $digits = preg_replace('/\D/', '', $input);
+        // Reasoning: normalize presentation characters while refusing truncation that could hide malformed or oversized input.
+        return preg_replace('/\D+/', '', $input) ?? '';
+    }
 
-        // If 11 digits starting with 0, strip the leading 0 (phone number to account mapping)
-        if (strlen($digits) === 11 && str_starts_with($digits, '0')) {
-            $digits = substr($digits, 1);
-        }
+    private function isNationalPhoneNumber(string $digits): bool
+    {
+        // Reasoning: only the explicit 11-digit Nigerian national form is unambiguously distinguishable from a 10-digit NUBAN.
+        return strlen($digits) === 11 && $digits[0] === '0' && $this->isNormalizedPhoneNumber(substr($digits, 1));
+    }
 
-        return substr($digits, 0, 10);
+    private function isNormalizedPhoneNumber(string $digits): bool
+    {
+        // Reasoning: this broad Nigerian mobile shape supports zero-stripped input without claiming every number belongs to a particular provider.
+        return preg_match('/^[789]\d{9}$/', $digits) === 1;
     }
 
     /**
-     * Match banks using NUBAN Modulo 10 algorithm across all registered institutions.
-     *
-     * @param string $accountNumber
-     * @return Bank[]
+     * @return list<Bank>
      */
     private function matchByNuban(string $accountNumber): array
     {
         $matches = [];
-
         foreach ($this->registry->all() as $bank) {
             if (Nuban::validate($accountNumber, $bank->nubanPrefix)) {
                 $matches[] = $bank;
@@ -94,49 +72,30 @@ class Resolver
     }
 
     /**
-     * Include prominent fintechs that allow phone number as account numbers.
-     *
-     * @param Bank[] $currentMatches
-     * @return Bank[]
+     * @return list<Bank>
      */
-    private function applyFintechHeuristics(array $currentMatches): array
+    private function matchPhoneAccounts(): array
     {
-        // Verified slugs from the banks.json dataset
-        $fintechSlugs = [
-            'paycom',                // OPay
-            'palmpay',               // PalmPay
-            'moniepoint-mfb-ng',     // Moniepoint
-            'kuda-bank',             // Kuda
-            'carbon',                // Carbon
-            'vfd-microfinance-bank-ng' // VFD
-        ];
-
-        foreach ($this->registry->all() as $bank) {
-            if (in_array($bank->slug, $fintechSlugs, true)) {
-                if (!$this->isAlreadyMatched($currentMatches, $bank)) {
-                    $currentMatches[] = $bank;
-                }
-            }
-        }
-
-        return $currentMatches;
+        // Reasoning: only institutions with explicit source-backed phone-account capability can be suggested for phone-based resolution.
+        return array_values(array_filter(
+            $this->registry->all(),
+            static fn (Bank $bank): bool => $bank->supportsPhoneAccount,
+        ));
     }
 
     /**
-     * Check if a bank is already present in matches list.
-     *
-     * @param Bank[] $matches
-     * @param Bank   $bank
-     * @return bool
+     * @param list<Bank> $left
+     * @param list<Bank> $right
+     * @return list<Bank>
      */
-    private function isAlreadyMatched(array $matches, Bank $bank): bool
+    private function mergeUnique(array $left, array $right): array
     {
-        foreach ($matches as $match) {
-            if ($match->code === $bank->code) {
-                return true;
-            }
+        // Reasoning: deduplicate by stable institution slug so multiple evidence paths cannot produce repeated suggestions.
+        $merged = [];
+        foreach (array_merge($left, $right) as $bank) {
+            $merged[$bank->slug] = $bank;
         }
 
-        return false;
+        return array_values($merged);
     }
 }

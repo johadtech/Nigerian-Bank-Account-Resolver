@@ -1,0 +1,26 @@
+{
+    "schema_version": "0.1.0",
+    "retrieved_at": "2026-08-23",
+    "records": [
+        {
+            "slug": "moniepoint-mfb-ng",
+            "phone_account_capability": "documented",
+            "accepted_input_formats": [
+                "nigerian_national_11_digit",
+                "normalized_10_digit"
+            ],
+            "source_url": "https://support.moniepoint.com/topics/account-information-and-updates-234/how-can-i-get-my-account-number-560",
+            "source_note": "Moniepoint documents a Phone number account feature and instructs users where to view the main wallet account number. The source does not state the exact digit transformation, so the resolver supports both common input representations without asserting which representation the provider stores."
+        },
+        {
+            "slug": "paycom",
+            "phone_account_capability": "documented",
+            "accepted_input_formats": [
+                "nigerian_national_11_digit",
+                "normalized_10_digit"
+            ],
+            "source_url": "https://static.opayweb.com/faqs",
+            "source_note": "OPay states that only another OPay user's phone number is needed to make a transaction. The source does not establish an interbank account-number format or leading-zero behavior."
+        }
+    ]
+}

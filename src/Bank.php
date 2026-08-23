@@ -1,56 +1,44 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NigerianBankResolver;
 
-/**
- * Class Bank
- * 
- * Represents a Nigerian financial institution entity with code, prefix, and local logo path.
- */
-class Bank
+final class Bank
 {
-    public string $name;
-    public string $code;
-    public string $nubanPrefix;
-    public string $slug;
-    public ?string $logoPath;
+    public readonly string $name;
+    public readonly string $code;
+    public readonly string $nubanPrefix;
+    public readonly string $slug;
+    public readonly ?string $logoPath;
+    public readonly bool $supportsPhoneAccount;
 
-    /**
-     * Bank constructor.
-     *
-     * @param string      $name
-     * @param string      $code
-     * @param string      $nubanPrefix
-     * @param string      $slug
-     * @param string|null $logoPath Local path to the logo file
-     */
     public function __construct(
         string $name,
         string $code,
         string $nubanPrefix,
         string $slug,
-        ?string $logoPath = null
+        ?string $logoPath = null,
+        bool $supportsPhoneAccount = false,
     ) {
         $this->name = $name;
         $this->code = $code;
         $this->nubanPrefix = $nubanPrefix;
         $this->slug = $slug;
         $this->logoPath = $logoPath;
+        $this->supportsPhoneAccount = $supportsPhoneAccount;
     }
 
-    /**
-     * Convert bank entity to array representation.
-     *
-     * @return array
-     */
     public function toArray(): array
     {
+        // Reasoning: expose the complete immutable value object while retaining the capability distinction used by resolution.
         return [
             'name' => $this->name,
             'code' => $this->code,
             'nuban_prefix' => $this->nubanPrefix,
             'slug' => $this->slug,
             'logo_path' => $this->logoPath,
+            'supports_phone_account' => $this->supportsPhoneAccount,
         ];
     }
 }
