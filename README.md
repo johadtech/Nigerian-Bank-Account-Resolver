@@ -29,15 +29,12 @@ A CBN listing establishes that an institution appeared in the archived regulator
 ```text
 .
 ├── src/
-│   ├── AccountVerificationProvider.php       # Provider-neutral verification contract
-│   ├── AccountVerificationResult.php          # Normalized provider response
-│   ├── Bank.php                               # Immutable institution value object
-│   ├── BankRegistry.php                       # Offline dataset and evidence loader
-│   ├── Nuban.php                              # NUBAN Modulo 10 validation
-│   ├── PaystackAccountVerificationProvider.php # Paystack name-enquiry adapter
-│   ├── Resolver.php                           # Candidate and verified resolution service
-│   └── VerifiedResolution.php                  # Verified/ambiguous/not-found outcome
+│   ├── Bank.php                 # Immutable institution value object
+│   ├── BankRegistry.php         # Offline dataset and evidence loader
+│   ├── Nuban.php                # NUBAN Modulo 10 validation
+│   └── Resolver.php             # Offline candidate-resolution service
 ├── data/
+│   ├── account-rules.json       # Product-specific account-format evidence
 │   ├── banks.json               # Local resolver records
 │   ├── phone-resolution.json    # Source-backed phone-account capabilities
 │   └── source-cbn-mfb-2026-08-23.json
@@ -96,25 +93,7 @@ foreach ($matches as $bank) {
 
 The same resolver accepts a normalized 10-digit phone representation such as `8031234567`. A clearly formatted 11-digit national phone number returns only the documented phone-capable institutions. A normalized 10-digit value is ambiguous with a NUBAN, so valid NUBAN matches may be returned together with documented phone-account matches.
 
-`resolve()` is intentionally a **candidate method**. It cannot identify the actual bank when multiple prefixes validate. For a real bank identification, pass a provider implementation to `resolveVerified()`:
-
-```php
-use NigerianBankResolver\PaystackAccountVerificationProvider;
-
-$provider = new PaystackAccountVerificationProvider(
-    $_ENV['PAYSTACK_SECRET_KEY'],
-);
-$result = $resolver->resolveVerified('2170861119', $provider);
-
-if ($result->status === 'verified') {
-    echo $result->bank?->name;
-} elseif ($result->status === 'ambiguous') {
-    // Do not select a bank automatically.
-    echo 'The account requires further verification.';
-}
-```
-
-The Paystack adapter uses the documented `GET /bank/resolve` endpoint and sends the account number and bank code with a runtime Bearer secret. Never hard-code the secret or send it from a browser. Network failures and invalid provider payloads are surfaced as exceptions; a valid provider rejection becomes a `not_found` result.
+`resolve()` is an **offline candidate method**. It returns every institution whose locally configured NUBAN rule is mathematically compatible with the supplied number, plus explicitly documented phone-account institutions where the input is phone-shaped. It does not claim that any candidate is the account owner. When multiple candidates are returned, the caller must treat the result as ambiguous rather than selecting the first record.
 
 ## Laravel integration
 
@@ -174,7 +153,7 @@ The resolver retains the user-confirmed operational entries Access Bank (Diamond
 
 The complete CBN name-level comparison queue is in [`docs/missing-cbn-institutions.md`](docs/missing-cbn-institutions.md). It is intentionally not bulk-imported: many records are finance companies, mortgage institutions, holding companies, discount houses, or other regulated entities whose customer-account and transfer eligibility has not been established for this resolver.
 
-The current account-eligibility evidence is in [`docs/account-eligibility-evidence.md`](docs/account-eligibility-evidence.md). The current phone capability contract is in [`data/phone-resolution.json`](data/phone-resolution.json). The research notes identify the source URL and the exact boundary of every documented claim.
+The current account-eligibility evidence is in [`docs/account-eligibility-evidence.md`](docs/account-eligibility-evidence.md). Product-specific account-format evidence is in [`data/account-rules.json`](data/account-rules.json). The current phone capability contract is in [`data/phone-resolution.json`](data/phone-resolution.json). The research notes identify the source URL and the exact boundary of every documented claim.
 
 ## Local logos
 
@@ -186,10 +165,9 @@ Run the framework-free resolver tests:
 
 ```bash
 php tests/test_resolver.php
-php tests/test_verified_resolution.php
 ```
 
-The test suite verifies that 281 records load, valid NUBAN input matches the expected institution, national and normalized phone input return documented phone-capable records, unsupported institutions are not added by heuristic, oversized input is rejected, malformed input returns no matches, and provider-confirmed UBA/First Bank results are returned as a single verified institution while unconfirmed candidates are not treated as verified.
+The test suite verifies that 281 records load, valid NUBAN input matches the expected institution, national and normalized phone input return documented phone-capable records, unsupported institutions are not added by heuristic, oversized input is rejected, malformed input returns no matches, and checksum-compatible candidates are not treated as confirmed bank identity.
 
 Run PHP syntax checks and JSON validation when changing the data or implementation:
 

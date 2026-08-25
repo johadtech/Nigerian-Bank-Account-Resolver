@@ -102,6 +102,60 @@ The user supplied four expected outcomes from integration testing: `2170861119` 
 
 Official provider documentation was reviewed. Paystack documents a Nigerian `GET /bank/resolve` endpoint that takes `account_number` and `bank_code` and returns account details. Flutterwave documents a Nigerian account-resolution endpoint that takes `account_number` and `account_bank`, returning the resolved account name. Monnify documents a Name Enquiry API that confirms the name tied to an account number using an account number and bank code.
 
-The resolver now includes a provider-neutral `AccountVerificationProvider` contract, normalized `AccountVerificationResult`, `VerifiedResolution` statuses, and a dependency-free `PaystackAccountVerificationProvider`. `resolve()` remains a backward-compatible candidate method. `resolveVerified()` checks candidate institutions through the provider and returns one bank only when exactly one provider verification succeeds. It returns explicit `ambiguous` or `not_found` outcomes instead of ranking checksum collisions as if they were confirmed banks.
+The provider documentation is retained as research context only. The main resolver remains intentionally offline and does not include a provider adapter, network lookup, credential, or name-enquiry dependency. External verification is outside the scope of this self-contained package.
 
-The provider adapter requires a runtime secret and performs no lookup by default. No real customer account was queried during development, and no provider credential was committed. A production integration still requires the application owner to configure a valid provider account and apply the provider's terms, rate limits, privacy controls, and error-handling requirements.
+
+## Account-product variation research — 2026-08-25
+
+Official UBA documentation confirms account opening and funds transfer through UBA's USSD service, including sending to UBA accounts and other banks. It does not publish a universal account-number pattern on the reviewed page. Official Moniepoint documentation confirms separate business and personal banking products and states that a business account number is created instantly after signup; it does not establish that all Moniepoint account numbers follow one single format. Official FirstBank documentation confirms current and savings account products, account opening through branches and digital channels, and that the customer receives an account number after account opening; it does not establish one universal account-number pattern across all products.
+
+Sources:
+
+- https://www.ubagroup.com/nigeria/personal-banking/digital-banking/919-ussd-banking/
+- https://moniepoint.com/ng/business/business-account
+- https://www.firstbanknigeria.com/personal/accounts/current/current-account/
+- https://www.firstbanknigeria.com/open-an-account-from-home-with-firstbank/
+
+These sources verify that the named institutions provide customer accounts and transfer functionality, but they do not justify deriving a bank identity from one sample number or assuming that every product shares one account-number rule.
+
+
+## Multi-product account research continuation — 2026-08-25
+
+Official UBA documentation confirms that UBA customers can open accounts and transfer funds to UBA accounts, other banks, microfinance banks, fintechs, and other institutions. It does not publish a single universal account-number pattern on the reviewed page.
+
+Official Moniepoint documentation distinguishes personal and business banking products and explicitly states that a business account number is created instantly after signup. This confirms account issuance but does not prove that personal and business account numbers share one pattern.
+
+Official FirstBank documentation confirms current-account products, digital and branch account opening, and notification of the customer’s account number after account opening. It does not prove one universal format across all FirstBank products.
+
+Official OPay FAQ material confirms sending and receiving money through OPay and distinguishes OPay account numbers from recipient bank account numbers, but the reviewed page does not publish a general OPay account-number pattern.
+
+Official PalmPay terms define a PalmPay virtual account number as a personal ten-digit number linked to a PalmPay account for its Pay With Transfer service and state that it can receive payments and accept transfers. This is product-specific evidence, not proof that every PalmPay account or phone number uses that format.
+
+Sources:
+
+- https://www.ubagroup.com/nigeria/personal-banking/digital-banking/919-ussd-banking/
+- https://moniepoint.com/ng/business/business-account
+- https://www.firstbanknigeria.com/personal/accounts/current/current-account/
+- https://www.firstbanknigeria.com/open-an-account-from-home-with-firstbank/
+- https://static.opayweb.com/faqs
+- https://www.palmpay.com/legal/termsAndConditions/
+
+No account-number rule was generalized from the user’s five sample numbers. Product-specific rules must remain separate from institution-wide rules unless an official source explicitly states that they apply universally.
+
+
+## Official product-specific account formats — 2026-08-25
+
+Moniepoint's official personal-banking page explicitly says users can use their phone number as their account number. Its official business-account page separately states that a business account number is created instantly. This proves multiple Moniepoint account products and means one sample cannot define all Moniepoint formats.
+
+OPay's official FAQ confirms OPay users can send and receive money and that OPay account details are distinct from recipient bank account details, but the reviewed page does not publish a universal customer account-number format.
+
+PalmPay's official terms explicitly define a personal ten-digit Virtual Account Number linked to the PalmPay account for its Pay With Transfer service and state that it can receive payments and accept transfers. This is a product-specific ten-digit account rule and must not be generalized to every PalmPay product or phone number.
+
+Sources:
+
+- https://moniepoint.com/ng/digital-banking
+- https://moniepoint.com/ng/business/business-account
+- https://static.opayweb.com/faqs
+- https://www.palmpay.com/legal/termsAndConditions/
+
+The resolver data model must represent product-specific formats and phone-account rules separately. It must not use a single institution-wide prefix or rule unless an authoritative source explicitly establishes that scope.
