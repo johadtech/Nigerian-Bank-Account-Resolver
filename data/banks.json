@@ -2238,5 +2238,13 @@
         "slug": "moneymaster-psb",
         "logo_url": "assets/logos/120003.png",
         "logo_path": "assets/logos/120003.png"
+    },
+    {
+        "name": "9 Payment Service Bank (9PSB)",
+        "code": null,
+        "prefix": null,
+        "slug": "9psb-ng",
+        "logo_url": null,
+        "logo_path": "assets/logos/9psb.png"
     }
 ]

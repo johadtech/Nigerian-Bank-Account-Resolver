@@ -63,7 +63,7 @@ final class Resolver
     {
         $matches = [];
         foreach ($this->registry->all() as $bank) {
-            if (Nuban::validate($accountNumber, $bank->nubanPrefix)) {
+            if ($bank->nubanPrefix !== null && Nuban::validate($accountNumber, $bank->nubanPrefix)) {
                 $matches[] = $bank;
             }
         }

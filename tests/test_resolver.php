@@ -28,7 +28,7 @@ function slugs(array $banks): array
 $registry = new BankRegistry();
 $resolver = new Resolver($registry);
 
-assertTrue(count($registry->all()) === 280, 'Expected the resolver registry to contain 280 institutions.');
+assertTrue(count($registry->all()) === 281, 'Expected the resolver registry to contain 281 institutions.');
 
 $serial = '012345678';
 $gtbAccount = $serial . Nuban::calculateCheckDigit('058', $serial);
@@ -36,7 +36,7 @@ $standardMatches = slugs($resolver->resolve($gtbAccount));
 assertTrue(in_array('guaranty-trust-bank', $standardMatches, true), 'A valid GTBank NUBAN must match GTBank.');
 
 $nationalPhoneMatches = slugs($resolver->resolve('08031234567'));
-assertTrue($nationalPhoneMatches === ['moniepoint-mfb-ng', 'paycom'], 'A national phone input must return only documented phone-capable institutions.');
+assertTrue($nationalPhoneMatches === ['moniepoint-mfb-ng', 'paycom', '9psb-ng'], 'A national phone input must return only documented phone-capable institutions.');
 
 $normalizedPhoneMatches = slugs($resolver->resolve('8031234567'));
 assertTrue(in_array('moniepoint-mfb-ng', $normalizedPhoneMatches, true), 'A normalized phone input must include Moniepoint.');

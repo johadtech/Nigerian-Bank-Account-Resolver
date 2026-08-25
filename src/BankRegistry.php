@@ -26,8 +26,8 @@ final class BankRegistry
             $slug = (string) ($data['slug'] ?? '');
             $this->banks[] = new Bank(
                 (string) $data['name'],
-                (string) $data['code'],
-                (string) $data['prefix'],
+                isset($data['code']) ? (string) $data['code'] : null,
+                isset($data['prefix']) ? (string) $data['prefix'] : null,
                 $slug,
                 isset($data['logo_path']) ? (string) $data['logo_path'] : null,
                 isset($phoneCapabilities[$slug]),

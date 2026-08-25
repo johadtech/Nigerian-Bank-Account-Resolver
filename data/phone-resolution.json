@@ -21,6 +21,16 @@
             ],
             "source_url": "https://static.opayweb.com/faqs",
             "source_note": "OPay states that only another OPay user's phone number is needed to make a transaction. The source does not establish an interbank account-number format or leading-zero behavior."
+        },
+        {
+            "slug": "9psb-ng",
+            "phone_account_capability": "documented",
+            "accepted_input_formats": [
+                "nigerian_national_11_digit",
+                "normalized_10_digit"
+            ],
+            "source_url": "https://9psb.com.ng/faq/",
+            "source_note": "9PSB states that a customer phone number is also the account number and follows a NUBAN standard. The transfer code and exact prefix were not published in the reviewed source and remain unknown."
         }
     ]
 }

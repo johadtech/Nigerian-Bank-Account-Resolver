@@ -7,16 +7,16 @@ namespace NigerianBankResolver;
 final class Bank
 {
     public readonly string $name;
-    public readonly string $code;
-    public readonly string $nubanPrefix;
+    public readonly ?string $code;
+    public readonly ?string $nubanPrefix;
     public readonly string $slug;
     public readonly ?string $logoPath;
     public readonly bool $supportsPhoneAccount;
 
     public function __construct(
         string $name,
-        string $code,
-        string $nubanPrefix,
+        ?string $code,
+        ?string $nubanPrefix,
         string $slug,
         ?string $logoPath = null,
         bool $supportsPhoneAccount = false,
