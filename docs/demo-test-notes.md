@@ -23,3 +23,10 @@ The result panel retained local logo paths and the browser-visible interface had
 Headless renders were inspected at 375×800 and 1440×900. The mobile render uses a single-column flow, keeps the brand and local-data badge within the viewport, stacks the system card below the hero, and preserves readable typography without horizontal overflow. The desktop render expands into a two-column hero with visible navigation and a side system-status card while keeping the resolver workspace full width.
 
 The institutional fintech direction is consistent across both sizes: dark navy surfaces, green trust/status accent, IBM Plex typography, monospace data labels, restrained borders, and explicit operational language. The local data and interaction states remain visible and legible.
+
+
+## Humanized institutional redesign — 2026-08-25
+
+The second redesign was inspected at 375×800 and 1440×900. The palette now uses an off-white background, deep navy typography, restrained bank blue controls, muted green success indicators, and a small amber caution surface. The previous neon green-on-dark treatment, large glow effects, and AI-like gradients were removed.
+
+At 375px, the layout remains single-column, the brand and environment badge stay within the viewport, the system status card stacks below the hero, and the resolver workspace begins without horizontal overflow. At 1440px, navigation, hero content, system status, resolver workspace, and method cards form a calm institutional console with balanced whitespace.
