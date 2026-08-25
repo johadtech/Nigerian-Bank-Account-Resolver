@@ -29,10 +29,14 @@ A CBN listing establishes that an institution appeared in the archived regulator
 ```text
 .
 ├── src/
-│   ├── Bank.php                 # Immutable institution value object
-│   ├── BankRegistry.php         # Offline dataset and evidence loader
-│   ├── Nuban.php                # NUBAN Modulo 10 validation
-│   └── Resolver.php             # Account and phone resolution service
+│   ├── AccountVerificationProvider.php       # Provider-neutral verification contract
+│   ├── AccountVerificationResult.php          # Normalized provider response
+│   ├── Bank.php                               # Immutable institution value object
+│   ├── BankRegistry.php                       # Offline dataset and evidence loader
+│   ├── Nuban.php                              # NUBAN Modulo 10 validation
+│   ├── PaystackAccountVerificationProvider.php # Paystack name-enquiry adapter
+│   ├── Resolver.php                           # Candidate and verified resolution service
+│   └── VerifiedResolution.php                  # Verified/ambiguous/not-found outcome
 ├── data/
 │   ├── banks.json               # Local resolver records
 │   ├── phone-resolution.json    # Source-backed phone-account capabilities
@@ -91,6 +95,26 @@ foreach ($matches as $bank) {
 ```
 
 The same resolver accepts a normalized 10-digit phone representation such as `8031234567`. A clearly formatted 11-digit national phone number returns only the documented phone-capable institutions. A normalized 10-digit value is ambiguous with a NUBAN, so valid NUBAN matches may be returned together with documented phone-account matches.
+
+`resolve()` is intentionally a **candidate method**. It cannot identify the actual bank when multiple prefixes validate. For a real bank identification, pass a provider implementation to `resolveVerified()`:
+
+```php
+use NigerianBankResolver\PaystackAccountVerificationProvider;
+
+$provider = new PaystackAccountVerificationProvider(
+    $_ENV['PAYSTACK_SECRET_KEY'],
+);
+$result = $resolver->resolveVerified('2170861119', $provider);
+
+if ($result->status === 'verified') {
+    echo $result->bank?->name;
+} elseif ($result->status === 'ambiguous') {
+    // Do not select a bank automatically.
+    echo 'The account requires further verification.';
+}
+```
+
+The Paystack adapter uses the documented `GET /bank/resolve` endpoint and sends the account number and bank code with a runtime Bearer secret. Never hard-code the secret or send it from a browser. Network failures and invalid provider payloads are surfaced as exceptions; a valid provider rejection becomes a `not_found` result.
 
 ## Laravel integration
 
@@ -162,9 +186,10 @@ Run the framework-free resolver tests:
 
 ```bash
 php tests/test_resolver.php
+php tests/test_verified_resolution.php
 ```
 
-The test suite verifies that 281 records load, valid NUBAN input matches the expected institution, national and normalized phone input return documented phone-capable records, unsupported institutions are not added by heuristic, oversized input is rejected, and malformed input returns no matches.
+The test suite verifies that 281 records load, valid NUBAN input matches the expected institution, national and normalized phone input return documented phone-capable records, unsupported institutions are not added by heuristic, oversized input is rejected, malformed input returns no matches, and provider-confirmed UBA/First Bank results are returned as a single verified institution while unconfirmed candidates are not treated as verified.
 
 Run PHP syntax checks and JSON validation when changing the data or implementation:
 

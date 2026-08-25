@@ -38,6 +38,57 @@ final class Resolver
         return $matches;
     }
 
+    public function resolveVerified(string $accountNumber, AccountVerificationProvider $provider): VerifiedResolution
+    {
+        // Reasoning: keep the existing candidate API compatible while offering a precise path that requires provider confirmation.
+        $candidates = $this->resolve($accountNumber);
+        $verifications = [];
+        foreach ($candidates as $bank) {
+            if ($bank->code === null) {
+                continue;
+            }
+
+            $verifications[$bank->slug] = $provider->verify($accountNumber, $bank->code);
+        }
+
+        $confirmed = [];
+        foreach ($verifications as $slug => $verification) {
+            if ($verification->successful) {
+                foreach ($candidates as $candidate) {
+                    if ($candidate->slug === $slug) {
+                        $confirmed[] = [$candidate, $verification];
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (count($confirmed) === 1) {
+            [$bank, $verification] = $confirmed[0];
+            return VerifiedResolution::verified($bank, $verification->accountName);
+        }
+
+        if (count($confirmed) > 1) {
+            return VerifiedResolution::ambiguous(
+                array_map(static fn (array $item): Bank => $item[0], $confirmed),
+                'More than one provider check returned a successful result.',
+            );
+        }
+
+        if ($candidates === []) {
+            return VerifiedResolution::notFound('No configured candidate matched the supplied input.');
+        }
+
+        if ($verifications === []) {
+            return VerifiedResolution::ambiguous(
+                $candidates,
+                'Candidates exist, but no candidate has a verified provider bank code.',
+            );
+        }
+
+        return VerifiedResolution::notFound('The provider did not confirm any candidate institution.');
+    }
+
     private function digitsOnly(string $input): string
     {
         // Reasoning: normalize presentation characters while refusing truncation that could hide malformed or oversized input.

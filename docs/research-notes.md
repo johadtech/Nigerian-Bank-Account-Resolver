@@ -94,3 +94,14 @@ Sources:
 - https://support.moniepoint.com/topics/account-information-and-updates-234/how-can-i-get-my-account-number-560
 - https://static.opayweb.com/faqs
 - https://help.kuda.com/en/articles/8954669-faqs
+
+
+## Account-resolution provider research — 2026-08-25
+
+The user supplied four expected outcomes from integration testing: `2170861119` is UBA, `6666421345` is Moniepoint MFB, `3140537382` is First Bank, and `7085352316` is a phone-based case involving OPay and possibly other providers. The existing checksum resolver includes the first and third institutions among many mathematically compatible candidates; it cannot identify either institution from digits alone. The second and fourth cases are phone-account cases and require provider-specific verification rather than broad phone heuristics.
+
+Official provider documentation was reviewed. Paystack documents a Nigerian `GET /bank/resolve` endpoint that takes `account_number` and `bank_code` and returns account details. Flutterwave documents a Nigerian account-resolution endpoint that takes `account_number` and `account_bank`, returning the resolved account name. Monnify documents a Name Enquiry API that confirms the name tied to an account number using an account number and bank code.
+
+The resolver now includes a provider-neutral `AccountVerificationProvider` contract, normalized `AccountVerificationResult`, `VerifiedResolution` statuses, and a dependency-free `PaystackAccountVerificationProvider`. `resolve()` remains a backward-compatible candidate method. `resolveVerified()` checks candidate institutions through the provider and returns one bank only when exactly one provider verification succeeds. It returns explicit `ambiguous` or `not_found` outcomes instead of ranking checksum collisions as if they were confirmed banks.
+
+The provider adapter requires a runtime secret and performs no lookup by default. No real customer account was queried during development, and no provider credential was committed. A production integration still requires the application owner to configure a valid provider account and apply the provider's terms, rate limits, privacy controls, and error-handling requirements.
