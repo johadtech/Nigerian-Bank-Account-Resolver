@@ -44,3 +44,8 @@ The mobile render remains single-column and fits the viewport cleanly. The deskt
 A full visual departure from the earlier dashboard styling was rendered and inspected at 375×800 and 1440×900. The interface now uses a cobalt header band, warm paper canvas, serif editorial headline, orange underlines and signal accents, compact field-note metadata, and a resolution desk framed like a practical instrument rather than a status dashboard.
 
 The mobile layout remains single-column and viewport-safe. The desktop layout uses the editorial hero split and a restrained local-index card. The new direction avoids dark neon backgrounds, glassmorphism, gradient effects, excessive rounded cards, and generic AI dashboard language.
+
+
+## Non-dashboard field-guide redesign — 2026-08-25
+
+The demo was rebuilt from first principles as a field-guide/index instrument. The inspection shows no status-pill row, metric card, floating dashboard panel, rounded card grid, gradient, glow, or AI-style confidence treatment. The mobile layout opens with the action and uses a single editorial column; the desktop layout creates a wide typographic field with a separated inspection section. The visual system is based on ruled lines, hard-edged index marks, serif display typography, monospace metadata, and a single orange signal accent against warm paper and dark ink.

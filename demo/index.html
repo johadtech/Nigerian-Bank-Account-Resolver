@@ -3,87 +3,61 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Offline Nigerian account-number and phone-account candidate resolver demo.">
-    <title>Nigerian Account Resolver | Demo</title>
+    <meta name="description" content="Offline Nigerian account-number and phone-account candidate resolver.">
+    <title>Resolve / Nigerian Account Index</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="app-shell">
-        <header class="topbar">
-            <a class="brand" href="./" aria-label="Nigerian Account Resolver home">
-                <span class="brand-mark" aria-hidden="true">NR</span>
-                <span class="brand-copy">
-                    <strong>Nigerian Account Resolver</strong>
-                    <small>Payment rails / local index</small>
-                </span>
+    <div class="site-frame">
+        <header class="masthead">
+            <a class="wordmark" href="./" aria-label="Nigerian Account Index home">
+                <span class="wordmark-symbol" aria-hidden="true">/</span>
+                <span>NAI</span>
             </a>
-            <nav class="topnav" aria-label="Primary navigation">
-                <a class="active" href="#resolver">Resolver</a>
-                <a href="#method">Method</a>
-                <a href="https://github.com/johadtech/Nigerian-Bank-Account-Resolver" rel="noreferrer">Repository</a>
-            </nav>
-            <span class="environment-badge"><span class="pulse-dot"></span>Local data</span>
+            <p class="masthead-title">Nigerian Account Index</p>
+            <p class="masthead-meta">Offline / v1.0</p>
         </header>
 
         <main>
-            <section class="hero-grid" id="resolver">
-                <div class="hero-copy">
-                    <p class="eyebrow">A quiet check before money moves</p>
-                    <h1>Read the number.<br><span>Respect the uncertainty.</span></h1>
-                    <p class="hero-lede">A practical local index for Nigerian account numbers and documented phone-account formats, made for the people building payment flows.</p>
-                    <div class="trust-row">
-                        <span><i class="icon-check" aria-hidden="true">✓</i> Browser-native</span>
-                        <span><i class="icon-check" aria-hidden="true">✓</i> Local registry</span>
-                        <span><i class="icon-check" aria-hidden="true">✓</i> No false certainty</span>
-                    </div>
+            <section class="intro" id="resolver">
+                <div class="section-number" aria-hidden="true">01</div>
+                <div class="intro-copy">
+                    <p class="kicker">Payment rail / field guide</p>
+                    <h1>Find the rules<br><em>inside</em> the number.</h1>
+                    <p class="intro-text">A local inspection tool for developers working with Nigerian account numbers and documented phone-account formats.</p>
                 </div>
-                <aside class="system-card" aria-label="System status">
-                    <div class="system-card-top">
-                        <span class="eyebrow">Local index</span>
-                        <span class="status-pill" id="data-status">Loading local data…</span>
-                    </div>
-                    <div class="system-metric">
-                        <strong id="metric-records">—</strong>
-                        <span>institution records available</span>
-                    </div>
-                    <div class="system-divider"></div>
-                    <div class="system-meta"><span>Runtime</span><strong>Browser only</strong></div>
-                    <div class="system-meta"><span>Registry</span><strong>Bundled records</strong></div>
-                </aside>
+                <p class="intro-note">This index checks structure.<br>It does not pretend to know<br>what a checksum cannot prove.</p>
             </section>
 
-            <section class="workspace panel" aria-labelledby="resolver-heading">
-                <div class="workspace-header">
-                    <div>
-                        <p class="eyebrow">Resolution desk / 01</p>
-                        <h2 id="resolver-heading">Inspect an account number</h2>
-                    </div>
-                    <div class="input-spec"><span class="spec-dot"></span> Accepts 10 or 11 digits</div>
+            <section class="lookup" aria-labelledby="lookup-heading">
+                <div class="lookup-label">
+                    <span>01 / Inspect</span>
+                    <span id="data-status">Loading local data…</span>
                 </div>
+                <h2 id="lookup-heading">Enter an account or phone number</h2>
                 <form id="resolver-form" novalidate>
-                    <label for="account-input">Account or phone number</label>
-                    <div class="input-row">
-                        <div class="input-shell">
-                            <span class="input-prefix" aria-hidden="true">NG</span>
-                            <input id="account-input" name="account" inputmode="numeric" autocomplete="off" placeholder="Enter account or phone number" maxlength="11" required>
-                        </div>
-                        <button type="submit"><span>Check locally</span><span class="button-arrow" aria-hidden="true">→</span></button>
+                    <div class="number-line">
+                        <span class="country-mark" aria-hidden="true">NG</span>
+                        <input id="account-input" name="account" inputmode="numeric" autocomplete="off" placeholder="0000000000" maxlength="11" required aria-describedby="input-help">
+                        <button type="submit" aria-label="Inspect number">Inspect <span aria-hidden="true">↗</span></button>
                     </div>
-                    <div class="form-footer">
-                        <p class="field-help">Examples: <button type="button" class="example-button" data-example="2170861119">2170861119</button><span aria-hidden="true">·</span><button type="button" class="example-button" data-example="08031234567">08031234567</button></p>
-                        <p class="privacy-note"><span aria-hidden="true">⌁</span> Processed locally in your browser</p>
+                    <div class="lookup-foot">
+                        <p id="input-help">10 digits: account or normalized phone · 11 digits: Nigerian mobile</p>
+                        <p>Runs in this browser. Nothing leaves this page.</p>
                     </div>
+                    <p class="example-line">Try <button type="button" class="example-button" data-example="2170861119">2170861119</button> or <button type="button" class="example-button" data-example="08031234567">08031234567</button></p>
                     <p class="error" id="input-error" role="alert" hidden></p>
                 </form>
             </section>
 
-            <section class="result-panel panel" id="result-panel" aria-live="polite" hidden>
-                <div class="result-summary">
+            <section class="result-panel" id="result-panel" aria-live="polite" hidden>
+                <div class="result-rule"></div>
+                <div class="result-heading">
                     <div>
-                        <p class="eyebrow" id="result-eyebrow">Result</p>
+                        <p class="kicker" id="result-eyebrow">Result</p>
                         <h2 id="result-title">No result yet</h2>
                     </div>
                     <span class="result-count" id="result-count"></span>
@@ -92,25 +66,20 @@
                 <div class="candidate-list" id="candidate-list"></div>
             </section>
 
-            <section class="method-grid" id="method">
-                <article class="method-card">
-                    <span class="method-number">01</span>
-                    <div><h2>Local validation</h2><p>Checks the NUBAN Modulo 10 calculation against locally configured institution prefixes.</p></div>
-                </article>
-                <article class="method-card">
-                    <span class="method-number">02</span>
-                    <div><h2>Evidence-led matching</h2><p>Phone-account candidates appear only where the repository records documented support.</p></div>
-                </article>
-                <article class="method-card caution">
-                    <span class="method-number">03</span>
-                    <div><h2>Never overclaims</h2><p>A checksum match is not a live bank confirmation. Multiple matches stay visibly ambiguous.</p></div>
-                </article>
+            <section class="method" id="method">
+                <div class="section-number" aria-hidden="true">02</div>
+                <div class="method-copy">
+                    <p class="kicker">How to read the output</p>
+                    <div class="method-row"><span>A</span><p><strong>Structure</strong> — NUBAN Modulo 10 is checked against locally configured prefixes.</p></div>
+                    <div class="method-row"><span>B</span><p><strong>Evidence</strong> — phone candidates appear only where a local source records support.</p></div>
+                    <div class="method-row"><span>C</span><p><strong>Uncertainty</strong> — multiple matches remain multiple. This is a resolver, not a name-enquiry service.</p></div>
+                </div>
             </section>
         </main>
 
-        <footer>
-            <span>NR / Nigerian Account Resolver</span>
-            <span>Local first · Open source · Built for payment builders</span>
+        <footer class="footer">
+            <span>NAI / Nigerian Account Index</span>
+            <a href="https://github.com/johadtech/Nigerian-Bank-Account-Resolver" rel="noreferrer">Source on GitHub ↗</a>
         </footer>
     </div>
     <script type="module" src="app.js"></script>
