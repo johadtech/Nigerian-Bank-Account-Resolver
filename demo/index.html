@@ -4,64 +4,115 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Offline Nigerian account-number and phone-account candidate resolver demo.">
-    <title>Nigerian Account Resolver Demo</title>
+    <title>Nigerian Account Resolver | Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <main class="shell">
-        <header class="hero">
-            <p class="eyebrow">Offline browser demo</p>
-            <h1>Nigerian Account Resolver</h1>
-            <p class="lede">Test the local JavaScript implementation against the bundled institution records. No account data leaves your browser.</p>
+    <div class="app-shell">
+        <header class="topbar">
+            <a class="brand" href="./" aria-label="Nigerian Account Resolver home">
+                <span class="brand-mark" aria-hidden="true">NR</span>
+                <span class="brand-copy">
+                    <strong>Nigerian Account Resolver</strong>
+                    <small>Developer infrastructure</small>
+                </span>
+            </a>
+            <nav class="topnav" aria-label="Primary navigation">
+                <a class="active" href="#resolver">Resolver</a>
+                <a href="#method">Method</a>
+                <a href="https://github.com/johadtech/Nigerian-Bank-Account-Resolver" rel="noreferrer">Repository</a>
+            </nav>
+            <span class="environment-badge"><span class="pulse-dot"></span>Local data</span>
         </header>
 
-        <section class="panel" aria-labelledby="resolver-heading">
-            <div class="panel-heading">
-                <div>
-                    <p class="eyebrow">Local candidate matching</p>
-                    <h2 id="resolver-heading">Enter an account or phone number</h2>
+        <main>
+            <section class="hero-grid" id="resolver">
+                <div class="hero-copy">
+                    <p class="eyebrow">Account intelligence / Nigeria</p>
+                    <h1>Resolve with confidence.<br><em>Know when not to guess.</em></h1>
+                    <p class="hero-lede">A transparent, offline-first resolver for Nigerian account numbers and documented phone-account formats.</p>
+                    <div class="trust-row">
+                        <span><i class="icon-check" aria-hidden="true">✓</i> No external API calls</span>
+                        <span><i class="icon-check" aria-hidden="true">✓</i> Local institution data</span>
+                        <span><i class="icon-check" aria-hidden="true">✓</i> Explicit ambiguity</span>
+                    </div>
                 </div>
-                <span class="status-pill" id="data-status">Loading local data…</span>
-            </div>
+                <aside class="system-card" aria-label="System status">
+                    <div class="system-card-top">
+                        <span class="eyebrow">System status</span>
+                        <span class="status-pill" id="data-status">Loading local data…</span>
+                    </div>
+                    <div class="system-metric">
+                        <strong id="metric-records">—</strong>
+                        <span>institution records loaded</span>
+                    </div>
+                    <div class="system-divider"></div>
+                    <div class="system-meta"><span>Mode</span><strong>Offline / browser</strong></div>
+                    <div class="system-meta"><span>Data source</span><strong>Bundled JSON</strong></div>
+                </aside>
+            </section>
 
-            <form id="resolver-form" novalidate>
-                <label for="account-input">Account or phone number</label>
-                <div class="input-row">
-                    <input id="account-input" name="account" inputmode="numeric" autocomplete="off" placeholder="e.g. 2170861119 or 08031234567" maxlength="11" required>
-                    <button type="submit">Resolve</button>
+            <section class="workspace panel" aria-labelledby="resolver-heading">
+                <div class="workspace-header">
+                    <div>
+                        <p class="eyebrow">Resolver workspace</p>
+                        <h2 id="resolver-heading">Check an account number</h2>
+                    </div>
+                    <div class="input-spec"><span class="spec-dot"></span> 10-digit NUBAN or 11-digit mobile</div>
                 </div>
-                <p class="field-help">Use 10 digits for a NUBAN or normalized phone input, or 11 digits for a Nigerian national phone number.</p>
-                <p class="error" id="input-error" role="alert" hidden></p>
-            </form>
-        </section>
+                <form id="resolver-form" novalidate>
+                    <label for="account-input">Account or phone number</label>
+                    <div class="input-row">
+                        <div class="input-shell">
+                            <span class="input-prefix" aria-hidden="true">NG</span>
+                            <input id="account-input" name="account" inputmode="numeric" autocomplete="off" placeholder="Enter account or phone number" maxlength="11" required>
+                        </div>
+                        <button type="submit"><span>Run resolution</span><span class="button-arrow" aria-hidden="true">→</span></button>
+                    </div>
+                    <div class="form-footer">
+                        <p class="field-help">Examples: <button type="button" class="example-button" data-example="2170861119">2170861119</button><span aria-hidden="true">·</span><button type="button" class="example-button" data-example="08031234567">08031234567</button></p>
+                        <p class="privacy-note"><span aria-hidden="true">⌁</span> Processed locally in your browser</p>
+                    </div>
+                    <p class="error" id="input-error" role="alert" hidden></p>
+                </form>
+            </section>
 
-        <section class="panel result-panel" id="result-panel" aria-live="polite" hidden>
-            <div class="result-summary">
-                <div>
-                    <p class="eyebrow" id="result-eyebrow">Result</p>
-                    <h2 id="result-title">No result yet</h2>
+            <section class="result-panel panel" id="result-panel" aria-live="polite" hidden>
+                <div class="result-summary">
+                    <div>
+                        <p class="eyebrow" id="result-eyebrow">Result</p>
+                        <h2 id="result-title">No result yet</h2>
+                    </div>
+                    <span class="result-count" id="result-count"></span>
                 </div>
-                <span class="result-count" id="result-count"></span>
-            </div>
-            <p class="result-description" id="result-description"></p>
-            <div class="candidate-list" id="candidate-list"></div>
-        </section>
+                <p class="result-description" id="result-description"></p>
+                <div class="candidate-list" id="candidate-list"></div>
+            </section>
 
-        <section class="note-grid" aria-label="Important limitations">
-            <article class="note-card">
-                <h2>What this demo can prove</h2>
-                <p>It validates the NUBAN checksum against locally configured prefixes and displays documented phone-account capabilities using local JSON and image assets.</p>
-            </article>
-            <article class="note-card warning-card">
-                <h2>What it cannot prove</h2>
-                <p>A ten-digit NUBAN does not universally encode its bank. Multiple matches are shown as ambiguous; the demo never claims account ownership or performs a live name enquiry.</p>
-            </article>
-        </section>
+            <section class="method-grid" id="method">
+                <article class="method-card">
+                    <span class="method-number">01</span>
+                    <div><h2>Local validation</h2><p>Checks the NUBAN Modulo 10 calculation against locally configured institution prefixes.</p></div>
+                </article>
+                <article class="method-card">
+                    <span class="method-number">02</span>
+                    <div><h2>Evidence-led matching</h2><p>Phone-account candidates appear only where the repository records documented support.</p></div>
+                </article>
+                <article class="method-card caution">
+                    <span class="method-number">03</span>
+                    <div><h2>Never overclaims</h2><p>A checksum match is not a live bank confirmation. Multiple matches stay visibly ambiguous.</p></div>
+                </article>
+            </section>
+        </main>
 
         <footer>
-            <p>Database-free. Network-free after the local files load. Built from the repository’s PHP resolver data.</p>
+            <span>NR / Nigerian Account Resolver</span>
+            <span>Database-free · Open source · Built for developers</span>
         </footer>
-    </main>
+    </div>
     <script type="module" src="app.js"></script>
 </body>
 </html>

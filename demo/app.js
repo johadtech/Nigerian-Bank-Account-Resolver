@@ -9,6 +9,7 @@ const state = {
 const form = document.querySelector("#resolver-form");
 const input = document.querySelector("#account-input");
 const dataStatus = document.querySelector("#data-status");
+const metricRecords = document.querySelector("#metric-records");
 const inputError = document.querySelector("#input-error");
 const resultPanel = document.querySelector("#result-panel");
 const resultEyebrow = document.querySelector("#result-eyebrow");
@@ -42,6 +43,7 @@ async function loadData() {
 
     dataStatus.textContent = `${banks.length} local records ready`;
     dataStatus.classList.add("ready");
+    metricRecords.textContent = banks.length.toLocaleString();
 }
 
 /** Removes formatting while preserving only decimal digits accepted by the resolver. */
@@ -200,6 +202,13 @@ function showError(message) {
     inputError.textContent = message;
     inputError.hidden = !message;
 }
+
+document.querySelectorAll("[data-example]").forEach((button) => {
+    button.addEventListener("click", () => {
+        input.value = button.dataset.example ?? "";
+        input.focus();
+    });
+});
 
 form.addEventListener("submit", (event) => {
     event.preventDefault();
