@@ -37,3 +37,10 @@ At 375px, the layout remains single-column, the brand and environment badge stay
 The final creative pass was inspected at 375×800 and 1440×900. It replaces the generic fintech dashboard language with a restrained ledger/index concept: warm paper-like canvas, navy type, bank-blue accents, compact monospace labels, a small local-index status card, and practical copy such as “A quiet check before money moves.”
 
 The mobile render remains single-column and fits the viewport cleanly. The desktop render uses an editorial split between the resolver message and local-index card, with the resolution desk below. The visual identity avoids neon gradients, glows, excessive pills, oversized AI-style hero treatment, and decorative effects that do not communicate product meaning.
+
+
+## Editorial field-note redesign — 2026-08-25
+
+A full visual departure from the earlier dashboard styling was rendered and inspected at 375×800 and 1440×900. The interface now uses a cobalt header band, warm paper canvas, serif editorial headline, orange underlines and signal accents, compact field-note metadata, and a resolution desk framed like a practical instrument rather than a status dashboard.
+
+The mobile layout remains single-column and viewport-safe. The desktop layout uses the editorial hero split and a restrained local-index card. The new direction avoids dark neon backgrounds, glassmorphism, gradient effects, excessive rounded cards, and generic AI dashboard language.

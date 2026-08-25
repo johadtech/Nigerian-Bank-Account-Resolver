@@ -1,22 +1,23 @@
 :root {
     color-scheme: light;
-    --bg: #f1eee8;
-    --surface: #fffdf9;
-    --surface-soft: #f8f6f1;
-    --ink: #1f3345;
-    --ink-strong: #102536;
-    --muted: #6e7c87;
-    --muted-strong: #445665;
-    --line: #dedbd3;
-    --line-strong: #c6c2b8;
-    --primary: #174d73;
-    --primary-dark: #103b59;
-    --primary-wash: #edf3f6;
-    --success: #25755e;
-    --success-wash: #eef6f1;
-    --warning: #a65b2b;
-    --warning-wash: #fff4e8;
-    --danger: #b42318;
+    --bg: #eee8de;
+    --surface: #fffdf8;
+    --surface-soft: #f7f1e7;
+    --ink: #233746;
+    --ink-strong: #102a3a;
+    --muted: #7b817e;
+    --muted-strong: #4b5c63;
+    --line: #d8d0c3;
+    --line-strong: #bcb1a2;
+    --primary: #144b67;
+    --primary-dark: #0e354a;
+    --primary-wash: #e8f0f2;
+    --success: #2e725d;
+    --success-wash: #edf6f0;
+    --warning: #c05d2e;
+    --warning-wash: #fff0e5;
+    --danger: #a7352c;
+    --signal: #e16936;
     --shadow: 0 8px 22px rgba(42, 47, 45, 0.06);
 }
 
@@ -66,8 +67,8 @@ input:focus-visible {
     justify-content: space-between;
     min-height: 72px;
     gap: 16px;
-    border-bottom: 1px solid var(--line);
-    background: rgba(245, 247, 250, 0.96);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    background: var(--primary);
 }
 
 .brand {
@@ -83,9 +84,9 @@ input:focus-visible {
     height: 36px;
     flex: 0 0 auto;
     place-items: center;
-    border-radius: 6px;
-    color: white;
-    background: var(--primary);
+    border-radius: 5px;
+    color: var(--primary);
+    background: #f5ede0;
     font-family: "IBM Plex Mono", monospace;
     font-size: 0.72rem;
     font-weight: 600;
@@ -100,7 +101,7 @@ input:focus-visible {
 
 .brand-copy strong {
     overflow: hidden;
-    color: var(--ink-strong);
+    color: #fffdf8;
     font-size: 0.86rem;
     font-weight: 600;
     letter-spacing: -0.01em;
@@ -109,7 +110,7 @@ input:focus-visible {
 }
 
 .brand-copy small {
-    color: var(--muted);
+    color: rgba(255, 253, 248, 0.68);
     font-size: 0.66rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -124,7 +125,7 @@ input:focus-visible {
 .topnav a {
     border-bottom: 2px solid transparent;
     padding: 24px 12px 21px;
-    color: var(--muted-strong);
+    color: rgba(255, 253, 248, 0.78);
     font-size: 0.82rem;
     transition: 180ms ease;
 }
@@ -132,8 +133,8 @@ input:focus-visible {
 .topnav a:hover,
 .topnav a.active {
     border-bottom-color: var(--primary);
-    color: var(--primary);
-    background: var(--primary-wash);
+    color: #fffdf8;
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .environment-badge,
@@ -168,15 +169,15 @@ input:focus-visible {
     position: relative;
     display: grid;
     gap: 26px;
-    padding: 42px 0 30px;
+    padding: 54px 0 36px;
 }
 
 .hero-grid::after {
     position: absolute;
-    top: 27px;
+    top: 35px;
     right: 0;
-    color: #a9a69d;
-    content: "LOCAL / 10-DIGIT INDEX";
+    color: var(--signal);
+    content: "FIELD NOTE 01 / NUBAN";
     font-family: "IBM Plex Mono", monospace;
     font-size: 0.58rem;
     letter-spacing: 0.11em;
@@ -204,14 +205,19 @@ h1 {
     max-width: 650px;
     margin-bottom: 16px;
     color: var(--ink-strong);
-    font-size: clamp(2.35rem, 10vw, 4.65rem);
-    font-weight: 600;
-    letter-spacing: -0.07em;
-    line-height: 1.02;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2.55rem, 11vw, 5.2rem);
+    font-weight: 400;
+    letter-spacing: -0.065em;
+    line-height: 0.98;
 }
 
 h1 span {
     color: var(--primary);
+    text-decoration: underline;
+    text-decoration-color: var(--signal);
+    text-decoration-thickness: 0.07em;
+    text-underline-offset: 0.08em;
 }
 
 .hero-lede {
@@ -258,7 +264,7 @@ h1 span {
 
 .system-card {
     align-self: end;
-    border-left: 4px solid var(--primary);
+    border-left: 6px solid var(--signal);
     padding: 20px;
 }
 
@@ -332,8 +338,9 @@ h1 span {
 }
 
 .workspace {
-    border-top: 3px solid var(--primary);
-    box-shadow: 0 10px 0 rgba(23, 77, 115, 0.05), var(--shadow);
+    border-top: 0;
+    border-left: 6px solid var(--primary);
+    box-shadow: 8px 8px 0 rgba(20, 75, 103, 0.08), var(--shadow);
 }
 
 .workspace-header {
@@ -426,12 +433,12 @@ button {
     align-items: center;
     justify-content: center;
     gap: 12px;
-    color: white;
-    background: var(--primary);
+    color: #fffdf8;
+    background: var(--signal);
 }
 
 .input-row > button:hover {
-    background: var(--primary-dark);
+    background: #ab4524;
 }
 
 .button-arrow {
@@ -576,7 +583,7 @@ button {
 }
 
 .method-card.caution {
-    border-color: #eed6b3;
+    border-color: #edc8ad;
     background: var(--warning-wash);
 }
 
