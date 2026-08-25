@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Offline Nigerian account-number and phone-account candidate resolver demo.">
+    <title>Nigerian Account Resolver Demo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="shell">
+        <header class="hero">
+            <p class="eyebrow">Offline browser demo</p>
+            <h1>Nigerian Account Resolver</h1>
+            <p class="lede">Test the local JavaScript implementation against the bundled institution records. No account data leaves your browser.</p>
+        </header>
+
+        <section class="panel" aria-labelledby="resolver-heading">
+            <div class="panel-heading">
+                <div>
+                    <p class="eyebrow">Local candidate matching</p>
+                    <h2 id="resolver-heading">Enter an account or phone number</h2>
+                </div>
+                <span class="status-pill" id="data-status">Loading local data…</span>
+            </div>
+
+            <form id="resolver-form" novalidate>
+                <label for="account-input">Account or phone number</label>
+                <div class="input-row">
+                    <input id="account-input" name="account" inputmode="numeric" autocomplete="off" placeholder="e.g. 2170861119 or 08031234567" maxlength="11" required>
+                    <button type="submit">Resolve</button>
+                </div>
+                <p class="field-help">Use 10 digits for a NUBAN or normalized phone input, or 11 digits for a Nigerian national phone number.</p>
+                <p class="error" id="input-error" role="alert" hidden></p>
+            </form>
+        </section>
+
+        <section class="panel result-panel" id="result-panel" aria-live="polite" hidden>
+            <div class="result-summary">
+                <div>
+                    <p class="eyebrow" id="result-eyebrow">Result</p>
+                    <h2 id="result-title">No result yet</h2>
+                </div>
+                <span class="result-count" id="result-count"></span>
+            </div>
+            <p class="result-description" id="result-description"></p>
+            <div class="candidate-list" id="candidate-list"></div>
+        </section>
+
+        <section class="note-grid" aria-label="Important limitations">
+            <article class="note-card">
+                <h2>What this demo can prove</h2>
+                <p>It validates the NUBAN checksum against locally configured prefixes and displays documented phone-account capabilities using local JSON and image assets.</p>
+            </article>
+            <article class="note-card warning-card">
+                <h2>What it cannot prove</h2>
+                <p>A ten-digit NUBAN does not universally encode its bank. Multiple matches are shown as ambiguous; the demo never claims account ownership or performs a live name enquiry.</p>
+            </article>
+        </section>
+
+        <footer>
+            <p>Database-free. Network-free after the local files load. Built from the repository’s PHP resolver data.</p>
+        </footer>
+    </main>
+    <script type="module" src="app.js"></script>
+</body>
+</html>

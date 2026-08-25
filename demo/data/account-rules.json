@@ -1,0 +1,66 @@
+{
+    "version": "2026-08-25",
+    "policy": "Product-specific evidence only; unknown patterns remain unknown.",
+    "records": [
+        {
+            "slug": "moniepoint-mfb-ng",
+            "institution": "Moniepoint MFB",
+            "product": "personal_banking",
+            "rule_type": "phone_number_as_account_number",
+            "format": "Nigerian phone number; exact storage and interbank representation are not published",
+            "status": "documented",
+            "source_url": "https://moniepoint.com/ng/digital-banking",
+            "source_note": "Moniepoint's official personal-banking page says users can use their phone number as their account number."
+        },
+        {
+            "slug": "moniepoint-mfb-ng",
+            "institution": "Moniepoint MFB",
+            "product": "business_banking",
+            "rule_type": "generated_account_number",
+            "format": "Account number is created after signup; exact pattern is not published",
+            "status": "documented_format_unknown",
+            "source_url": "https://moniepoint.com/ng/business/business-account",
+            "source_note": "Moniepoint's official business-account page says the business account number is created instantly."
+        },
+        {
+            "slug": "palmpay-ng",
+            "institution": "PalmPay",
+            "product": "pay_with_transfer",
+            "rule_type": "virtual_account_number",
+            "format": "Ten-digit personal virtual account number",
+            "status": "documented_product_specific",
+            "source_url": "https://www.palmpay.com/legal/termsAndConditions/",
+            "source_note": "PalmPay's official terms define a personal ten-digit Virtual Account Number linked to the PalmPay account for Pay With Transfer."
+        },
+        {
+            "slug": "united-bank-for-africa",
+            "institution": "United Bank for Africa",
+            "product": "personal_and_other_banking",
+            "rule_type": "account_products_and_transfers",
+            "format": "Institution issues customer accounts and supports transfers; universal account-number pattern not published",
+            "status": "format_unknown",
+            "source_url": "https://www.ubagroup.com/nigeria/personal-banking/digital-banking/919-ussd-banking/",
+            "source_note": "Official UBA documentation confirms account opening and transfers to UBA accounts, other banks, microfinance banks, fintechs, and other institutions."
+        },
+        {
+            "slug": "first-bank-of-nigeria",
+            "institution": "First Bank of Nigeria",
+            "product": "current_and_savings_accounts",
+            "rule_type": "account_products_and_account_number_issuance",
+            "format": "Account number issued after account opening; universal product-independent pattern not published",
+            "status": "format_unknown",
+            "source_url": "https://www.firstbanknigeria.com/open-an-account-from-home-with-firstbank/",
+            "source_note": "Official FirstBank documentation says customers receive an account number after account opening through supported channels."
+        },
+        {
+            "slug": "paycom",
+            "institution": "OPay Digital Services Limited (OPay)",
+            "product": "personal_and_merchant_wallets",
+            "rule_type": "account_and_phone_transactions",
+            "format": "OPay account and phone-based transactions are documented; universal account-number pattern is not published",
+            "status": "format_unknown",
+            "source_url": "https://static.opayweb.com/faqs",
+            "source_note": "Official OPay FAQ documents sending and receiving money and phone-number transactions between OPay users."
+        }
+    ]
+}

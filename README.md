@@ -52,6 +52,18 @@ A CBN listing establishes that an institution appeared in the archived regulator
 └── README.md
 ```
 
+## Live browser demo
+
+The repository includes a real browser demo under [`demo/`](demo/). It is pure JavaScript and uses the local JSON data and logo assets; it does not call a third-party API or require PHP, a database, or a server-side runtime in the browser. The [`Deploy live JavaScript demo`](.github/workflows/pages.yml) workflow publishes the `demo/` directory to GitHub Pages after a push to `main`.
+
+After GitHub Pages is enabled for the repository, the project site is available at:
+
+```text
+https://johadtech.github.io/Nigerian-Bank-Account-Resolver/
+```
+
+The live page is an offline candidate resolver, not a name-enquiry service. It shows explicit ambiguity when multiple locally configured rules match and does not claim to identify the account owner.
+
 ## Installation
 
 With Composer:
