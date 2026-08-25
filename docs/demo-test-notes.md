@@ -30,3 +30,10 @@ The institutional fintech direction is consistent across both sizes: dark navy s
 The second redesign was inspected at 375×800 and 1440×900. The palette now uses an off-white background, deep navy typography, restrained bank blue controls, muted green success indicators, and a small amber caution surface. The previous neon green-on-dark treatment, large glow effects, and AI-like gradients were removed.
 
 At 375px, the layout remains single-column, the brand and environment badge stay within the viewport, the system status card stacks below the hero, and the resolver workspace begins without horizontal overflow. At 1440px, navigation, hero content, system status, resolver workspace, and method cards form a calm institutional console with balanced whitespace.
+
+
+## Ledger-inspired creative direction — 2026-08-25
+
+The final creative pass was inspected at 375×800 and 1440×900. It replaces the generic fintech dashboard language with a restrained ledger/index concept: warm paper-like canvas, navy type, bank-blue accents, compact monospace labels, a small local-index status card, and practical copy such as “A quiet check before money moves.”
+
+The mobile render remains single-column and fits the viewport cleanly. The desktop render uses an editorial split between the resolver message and local-index card, with the resolution desk below. The visual identity avoids neon gradients, glows, excessive pills, oversized AI-style hero treatment, and decorative effects that do not communicate product meaning.

@@ -17,7 +17,7 @@
                 <span class="brand-mark" aria-hidden="true">NR</span>
                 <span class="brand-copy">
                     <strong>Nigerian Account Resolver</strong>
-                    <small>Developer infrastructure</small>
+                    <small>Payment rails / local index</small>
                 </span>
             </a>
             <nav class="topnav" aria-label="Primary navigation">
@@ -31,37 +31,37 @@
         <main>
             <section class="hero-grid" id="resolver">
                 <div class="hero-copy">
-                    <p class="eyebrow">Account intelligence / Nigeria</p>
-                    <h1>Find the right<br><span>local candidate.</span></h1>
-                    <p class="hero-lede">A clear, offline-first way to check Nigerian account numbers and documented phone-account formats before you build a transfer flow.</p>
+                    <p class="eyebrow">A quiet check before money moves</p>
+                    <h1>Read the number.<br><span>Respect the uncertainty.</span></h1>
+                    <p class="hero-lede">A practical local index for Nigerian account numbers and documented phone-account formats, made for the people building payment flows.</p>
                     <div class="trust-row">
-                        <span><i class="icon-check" aria-hidden="true">✓</i> Runs locally</span>
-                        <span><i class="icon-check" aria-hidden="true">✓</i> Uses bundled records</span>
-                        <span><i class="icon-check" aria-hidden="true">✓</i> Shows uncertainty</span>
+                        <span><i class="icon-check" aria-hidden="true">✓</i> Browser-native</span>
+                        <span><i class="icon-check" aria-hidden="true">✓</i> Local registry</span>
+                        <span><i class="icon-check" aria-hidden="true">✓</i> No false certainty</span>
                     </div>
                 </div>
                 <aside class="system-card" aria-label="System status">
                     <div class="system-card-top">
-                        <span class="eyebrow">System status</span>
+                        <span class="eyebrow">Local index</span>
                         <span class="status-pill" id="data-status">Loading local data…</span>
                     </div>
                     <div class="system-metric">
                         <strong id="metric-records">—</strong>
-                        <span>institution records loaded</span>
+                        <span>institution records available</span>
                     </div>
                     <div class="system-divider"></div>
-                    <div class="system-meta"><span>Mode</span><strong>Offline / browser</strong></div>
-                    <div class="system-meta"><span>Data source</span><strong>Bundled JSON</strong></div>
+                    <div class="system-meta"><span>Runtime</span><strong>Browser only</strong></div>
+                    <div class="system-meta"><span>Registry</span><strong>Bundled records</strong></div>
                 </aside>
             </section>
 
             <section class="workspace panel" aria-labelledby="resolver-heading">
                 <div class="workspace-header">
                     <div>
-                        <p class="eyebrow">Resolver workspace</p>
-                        <h2 id="resolver-heading">Check an account number</h2>
+                        <p class="eyebrow">Resolution desk / 01</p>
+                        <h2 id="resolver-heading">Inspect an account number</h2>
                     </div>
-                    <div class="input-spec"><span class="spec-dot"></span> 10-digit NUBAN or 11-digit mobile</div>
+                    <div class="input-spec"><span class="spec-dot"></span> Accepts 10 or 11 digits</div>
                 </div>
                 <form id="resolver-form" novalidate>
                     <label for="account-input">Account or phone number</label>
@@ -70,7 +70,7 @@
                             <span class="input-prefix" aria-hidden="true">NG</span>
                             <input id="account-input" name="account" inputmode="numeric" autocomplete="off" placeholder="Enter account or phone number" maxlength="11" required>
                         </div>
-                        <button type="submit"><span>Run resolution</span><span class="button-arrow" aria-hidden="true">→</span></button>
+                        <button type="submit"><span>Check locally</span><span class="button-arrow" aria-hidden="true">→</span></button>
                     </div>
                     <div class="form-footer">
                         <p class="field-help">Examples: <button type="button" class="example-button" data-example="2170861119">2170861119</button><span aria-hidden="true">·</span><button type="button" class="example-button" data-example="08031234567">08031234567</button></p>
@@ -110,7 +110,7 @@
 
         <footer>
             <span>NR / Nigerian Account Resolver</span>
-            <span>Database-free · Open source · Built for developers</span>
+            <span>Local first · Open source · Built for payment builders</span>
         </footer>
     </div>
     <script type="module" src="app.js"></script>

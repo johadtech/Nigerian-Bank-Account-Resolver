@@ -1,23 +1,23 @@
 :root {
     color-scheme: light;
-    --bg: #f5f7fa;
-    --surface: #ffffff;
-    --surface-soft: #f8fafc;
-    --ink: #102a43;
-    --ink-strong: #0b1f33;
-    --muted: #62758a;
-    --muted-strong: #40566d;
-    --line: #d9e2ec;
-    --line-strong: #b9c7d5;
-    --primary: #0f4c81;
-    --primary-dark: #0b3b64;
-    --primary-wash: #edf4fb;
-    --success: #147d64;
-    --success-wash: #edf8f4;
-    --warning: #9a5b13;
-    --warning-wash: #fff8eb;
+    --bg: #f1eee8;
+    --surface: #fffdf9;
+    --surface-soft: #f8f6f1;
+    --ink: #1f3345;
+    --ink-strong: #102536;
+    --muted: #6e7c87;
+    --muted-strong: #445665;
+    --line: #dedbd3;
+    --line-strong: #c6c2b8;
+    --primary: #174d73;
+    --primary-dark: #103b59;
+    --primary-wash: #edf3f6;
+    --success: #25755e;
+    --success-wash: #eef6f1;
+    --warning: #a65b2b;
+    --warning-wash: #fff4e8;
     --danger: #b42318;
-    --shadow: 0 8px 24px rgba(16, 42, 67, 0.06);
+    --shadow: 0 8px 22px rgba(42, 47, 45, 0.06);
 }
 
 * {
@@ -165,10 +165,23 @@ input:focus-visible {
 }
 
 .hero-grid {
+    position: relative;
     display: grid;
     gap: 26px;
     padding: 42px 0 30px;
 }
+
+.hero-grid::after {
+    position: absolute;
+    top: 27px;
+    right: 0;
+    color: #a9a69d;
+    content: "LOCAL / 10-DIGIT INDEX";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.11em;
+}
+
 
 .eyebrow {
     margin: 0 0 8px;
@@ -245,6 +258,7 @@ h1 span {
 
 .system-card {
     align-self: end;
+    border-left: 4px solid var(--primary);
     padding: 20px;
 }
 
@@ -319,6 +333,7 @@ h1 span {
 
 .workspace {
     border-top: 3px solid var(--primary);
+    box-shadow: 0 10px 0 rgba(23, 77, 115, 0.05), var(--shadow);
 }
 
 .workspace-header {
